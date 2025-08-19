@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #FF9F43;
-            --secondary: #FECA57;
+            --primary: #fa8c8d;
+            --secondary: #ffb6b6;
             --dark: #2C3A47;
             --light: #FFFFFF;
-            --accent: #FF6B6B;
+            --accent: #ff6b6b;
             --text: #2C2F33;
             --gray: #99AAB5;
-            --logo-primary: #FF9F43;
-            --logo-secondary: #FECA57;
+            --logo-primary: #fa8c8d;
+            --logo-secondary: #ffb6b6;
         }
         
         * {
@@ -68,7 +68,7 @@
         }
         
         header.sticky {
-            background-color: rgba(255, 159, 67, 0.95);
+            background-color: rgba(250, 140, 141, 0.95);
             backdrop-filter: blur(10px);
             padding: 0.5rem 0;
         }
@@ -174,7 +174,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://i.imgur.com/dDgwuKf.jpeg') center/cover no-repeat;
+            background: url('https://i.imgur.com/cat-background.jpg') center/cover no-repeat;
             opacity: 0.1;
             pointer-events: none;
         }
@@ -205,7 +205,7 @@
             position: relative;
         }
         
-        /* NEW: GIF Badge Styles */
+        /* GIF Badge Styles */
         .gif-badge {
             display: inline-block;
             background: rgba(255, 255, 255, 0.2);
@@ -319,7 +319,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(255, 159, 67, 0.1);
+            border: 1px solid rgba(250, 140, 141, 0.1);
         }
         
         .feature-card::before {
@@ -461,7 +461,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             width: 250px;
             transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(255, 159, 67, 0.1);
+            border: 1px solid rgba(250, 140, 141, 0.1);
         }
         
         .server-card:hover {
@@ -495,7 +495,7 @@
             padding: 2rem;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 159, 67, 0.1);
+            border: 1px solid rgba(250, 140, 141, 0.1);
         }
         
         .legal-content h2 {
@@ -644,6 +644,23 @@
             color: var(--gray);
         }
         
+        /* Made by credit */
+        .made-by {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .made-by a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .made-by a:hover {
+            text-decoration: underline;
+        }
+        
         /* Floating decorations */
         .floating {
             position: absolute;
@@ -655,14 +672,14 @@
         .floating.cat {
             width: 100px;
             height: 100px;
-            background: url('https://i.imgur.com/tA2gOCh.jpeg') center/contain no-repeat;
+            background: url('https://i.imgur.com/cat1.png') center/contain no-repeat;
             animation: float 6s ease-in-out infinite;
         }
         
         .floating.paw {
             width: 50px;
             height: 50px;
-            background: url('https://i.imgur.com/u9h6Lif.jpeg') center/contain no-repeat;
+            background: url('https://i.imgur.com/paw1.png') center/contain no-repeat;
             animation: float 4s ease-in-out infinite;
         }
         
@@ -790,7 +807,7 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <img src="https://i.imgur.com/dDgwuKf.jpeg">
+                    <img src="https://i.imgur.com/meowcall-logo.png">
                     <span>MeowCall</span>
                 </div>
                 <ul class="nav-links">
@@ -895,17 +912,17 @@
                 <div class="command-category">
                     <h3><i class="fas fa-link"></i> Connection Commands</h3>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/VPGb0kB.png" class="command-image">
+                        <img src="https://i.imgur.com/command-call.png" class="command-image">
                         <div class="command-name">/call</div>
                         <div class="command-desc">Connect your server to another random server</div>
                     </div>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/q8PwHnW.png" class="command-image">
+                        <img src="https://i.imgur.com/command-skip.png" class="command-image">
                         <div class="command-name">/skip</div>
                         <div class="command-desc">Skip the current connection and find a new server</div>
                     </div>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/REFq9jx.png" class="command-image">
+                        <img src="https://i.imgur.com/command-hang.png" class="command-image">
                         <div class="command-name">/hang</div>
                         <div class="command-desc">End the current connection</div>
                     </div>
@@ -914,22 +931,22 @@
                 <div class="command-category">
                     <h3><i class="fas fa-users"></i> Social Commands</h3>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/uvC26b7.png" class="command-image" alt="GIF example in chat">
+                        <img src="https://i.imgur.com/command-gif.png" class="command-image" alt="GIF example in chat">
                         <div class="command-name">gif</div>
                         <div class="command-desc">Share animated GIFs in connected chats (supports Tenor/Giphy links!)</div>
                     </div>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/2hNEgfc.png" class="command-image">
+                        <img src="https://i.imgur.com/command-friend.png" class="command-image">
                         <div class="command-name">/friendrequest</div>
                         <div class="command-desc">Send your Discord username to the connected server</div>
                     </div>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/SSsoxB0.png" alt="/flip command" class="command-image">
+                        <img src="https://i.imgur.com/command-flip.png" alt="/flip command" class="command-image">
                         <div class="command-name">/flip</div>
                         <div class="command-desc">Flip a coin with fun animations</div>
                     </div>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/ifhH87J.png" alt="/ship command" class="command-image">
+                        <img src="https://i.imgur.com/command-ship.png" alt="/ship command" class="command-image">
                         <div class="command-name">/ship</div>
                         <div class="command-desc">Calculate compatibility between two users</div>
                     </div>
@@ -938,22 +955,22 @@
                 <div class="command-category">
                     <h3><i class="fas fa-gamepad"></i> Game Commands</h3>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/example1.png" class="command-image">
+                        <img src="https://i.imgur.com/command-smash.png" class="command-image">
                         <div class="command-name">/smashorpass</div>
                         <div class="command-desc">Play Smash or Pass with random anime characters</div>
                     </div>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/example2.png" class="command-image">
+                        <img src="https://i.imgur.com/command-8ball.png" class="command-image">
                         <div class="command-name">/8ball</div>
                         <div class="command-desc">Ask the magic 8-ball a yes/no question</div>
                     </div>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/example3.png" class="command-image">
+                        <img src="https://i.imgur.com/command-random.png" class="command-image">
                         <div class="command-name">/random</div>
                         <div class="command-desc">Randomly ship two server members</div>
                     </div>
                     <div class="command-item">
-                        <img src="https://i.imgur.com/example4.png" class="command-image">
+                        <img src="https://i.imgur.com/command-truth.png" class="command-image">
                         <div class="command-name">/truthdare</div>
                         <div class="command-desc">Play Truth or Dare with your friends</div>
                     </div>
@@ -1017,28 +1034,28 @@
         </div>
     </section>
 
-<section id="credits" class="credits">
-    <div class="container">
-        <h2 class="section-title">Credits</h2>
-        <div class="credits-grid">
-            <div class="credit-card">
-                <h3>Development Team</h3>
-                <p>The talented developers who brought MeowCall to life</p>
-                <div class="credit-links">
-                    <a href="https://github.com/Flame7-7" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://discordapp.com/users/933021375294214175" target="_blank"><i class="fab fa-discord"></i></a>
+    <section id="credits" class="credits">
+        <div class="container">
+            <h2 class="section-title">Credits</h2>
+            <div class="credits-grid">
+                <div class="credit-card">
+                    <h3>Development Team</h3>
+                    <p>The talented developers who brought MeowCall to life</p>
+                    <div class="credit-links">
+                        <a href="https://github.com/Flame7-7" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://discordapp.com/users/933021375294214175" target="_blank"><i class="fab fa-discord"></i></a>
+                    </div>
                 </div>
-            </div>
-            <div class="credit-card">
-                <h3>Special Thanks</h3>
-                <p>Community members who helped test and improve MeowCall</p>
-                <div class="credit-links">
-                    <a href="https://discord.gg/YFPEbK2nBq" target="_blank"><i class="fab fa-discord"></i></a>
+                <div class="credit-card">
+                    <h3>Special Thanks</h3>
+                    <p>Community members who helped test and improve MeowCall</p>
+                    <div class="credit-links">
+                        <a href="https://discord.gg/YFPEbK2nBq" target="_blank"><i class="fab fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <section id="legal">
         <div class="container">
@@ -1061,7 +1078,6 @@
                             <li>Server IDs where the bot is installed</li>
                             <li>Channel IDs where bot commands are used</li>
                             <li>Message content when using the connection features</li>
-                            <li
                             <li>Command usage statistics</li>
                         </ul>
                         
@@ -1153,11 +1169,12 @@
             <div class="social-links">
                 <a href="#" target="_blank"><i class="fab fa-discord"></i></a>
                 <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://github.com/Flame7-7" target="_blank"><i class="fab fa-github"></i></a>
                 <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
             </div>
             
             <p class="copyright">© 2025 MeowCall. Not affiliated with Discord Inc.</p>
+            <p class="made-by">Made with ❤️ by <a href="https://github.com/Flame7-7" target="_blank">@flame7_7</a></p>
         </div>
     </footer>
 
