@@ -5,56 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeowCall - Discord Voice Chat Bot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #fa8c8d;
-            --secondary: #ffb6b6;
-            --dark: #2C3A47;
-            --light: #FFFFFF;
-            --accent: #ff6b6b;
-            --text: #2C2F33;
-            --gray: #99AAB5;
-            --logo-primary: #fa8c8d;
-            --logo-secondary: #ffb6b6;
+            --primary: #ff69b4;
+            --secondary: #ffb6c1;
+            --dark: #36393f;
+            --light: #ffffff;
+            --accent: #ff1493;
+            --text: #2c2f33;
+            --gray: #99aab5;
+            --bg-light: #f0f0f0;
+            --shadow: rgba(0, 0, 0, 0.1);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
-        
+
         body {
             background-color: var(--light);
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
         }
-        
-        /* Sparkle Animation */
+
+        /* Enhanced Sparkle Animation */
         .sparkle {
             position: absolute;
-            width: 5px;
-            height: 5px;
+            width: 8px;
+            height: 8px;
             background-color: #fff;
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            animation: sparkleAnimation 1s ease-out forwards;
+            animation: sparkleAnimation 0.8s ease-out forwards;
+            box-shadow: 0 0 5px #fff;
         }
-        
+
         @keyframes sparkleAnimation {
-            0% {
-                transform: scale(0);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
         }
-        
+
         header {
             background-color: var(--primary);
             color: var(--light);
@@ -63,28 +59,28 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px var(--shadow);
             transition: all 0.3s ease;
         }
-        
+
         header.sticky {
-            background-color: rgba(250, 140, 141, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: rgba(255, 105, 180, 0.95);
+            backdrop-filter: blur(12px);
             padding: 0.5rem 0;
         }
-        
+
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
@@ -92,81 +88,69 @@
             font-weight: 700;
             position: relative;
         }
-        
+
         .logo img {
-            height: 40px;
-            margin-right: 10px;
-            transition: transform 0.3s;
+            height: 45px;
+            margin-right: 12px;
+            transition: transform 0.4s ease;
         }
-        
+
         .logo:hover img {
-            transform: rotate(15deg);
+            transform: rotate(360deg);
         }
-        
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--logo-primary), var(--logo-secondary));
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-        
-        .logo:hover::after {
-            transform: scaleX(1);
-        }
-        
+
         .nav-links {
             display: flex;
             list-style: none;
         }
-        
+
         .nav-links li {
-            margin-left: 2rem;
-            position: relative;
+            margin-left: 2.5rem;
         }
-        
+
         .nav-links a {
             color: var(--light);
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 0.5rem 0;
+            font-weight: 600;
+            transition: color 0.3s, transform 0.3s;
+            position: relative;
         }
-        
+
+        .nav-links a:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -4px;
             left: 0;
             width: 0;
             height: 2px;
-            background-color: var(--light);
+            background-color: var(--accent);
             transition: width 0.3s;
         }
-        
+
         .nav-links a:hover::after {
             width: 100%;
         }
-        
+
         .hamburger {
             display: none;
             cursor: pointer;
-            z-index: 1001;
+            font-size: 1.5rem;
         }
-        
+
         .hero {
-            padding: 8rem 0 4rem;
+            padding: 6rem 0 3rem;
             text-align: center;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: var(--light);
             position: relative;
             overflow: hidden;
         }
-        
+
         .hero::before {
             content: '';
             position: absolute;
@@ -175,639 +159,368 @@
             width: 100%;
             height: 100%;
             background: url('https://i.postimg.cc/9fc19qy0/60f8abe8-cc74-4aab-bf36-e2d970e12eff.png') center/cover no-repeat;
-            opacity: 0.1;
+            opacity: 0.15;
             pointer-events: none;
         }
-        
+
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        
-        .hero h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background-color: var(--light);
-            border-radius: 2px;
-        }
-        
+
         .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            position: relative;
+            font-size: 1.3rem;
+            max-width: 750px;
+            margin: 0 auto 2.5rem;
         }
-        
-        /* GIF Badge Styles */
+
         .gif-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
             font-weight: 600;
-            margin: 1rem 0;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: pulse 2s infinite;
+            margin: 1.5rem 0;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            animation: pulse 1.5s infinite;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
+
         .btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             background-color: var(--light);
             color: var(--primary);
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            margin: 0.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            margin: 0.6rem;
+            box-shadow: 0 4px 12px var(--shadow);
             position: relative;
             overflow: hidden;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-        
-        .btn:hover::before {
-            left: 100%;
-        }
-        
+
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
         }
-        
-        .btn-primary {
-            background-color: var(--light);
-            color: var(--primary);
-        }
-        
+
         .btn-secondary {
             background-color: transparent;
-            color: var(--light);
             border: 2px solid var(--light);
+            color: var(--light);
         }
-        
+
         .btn-secondary:hover {
             background-color: var(--light);
             color: var(--primary);
         }
-        
+
         section {
             padding: 4rem 0;
-            position: relative;
+            background-color: var(--light);
         }
-        
+
+        .commands, .credits {
+            background-color: var(--bg-light);
+        }
+
         .section-title {
             text-align: center;
             margin-bottom: 3rem;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: var(--primary);
             position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
         }
-        
+
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background-color: var(--primary);
-            border-radius: 3px;
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 2px;
         }
-        
+
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
-        
+
         .feature-card {
             background-color: var(--light);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 8px 24px var(--shadow);
+            transition: all 0.3s ease;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(250, 140, 141, 0.1);
+            border: 1px solid rgba(255, 105, 180, 0.1);
         }
-        
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-        
+
         .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
         }
-        
+
         .feature-icon {
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: var(--primary);
-            margin-bottom: 1rem;
-            transition: transform 0.3s;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
         }
-        
+
         .feature-card:hover .feature-icon {
-            transform: scale(1.2);
+            transform: rotate(360deg);
         }
-        
+
         .feature-card h3 {
             margin-bottom: 1rem;
             color: var(--primary);
-            position: relative;
-            display: inline-block;
+            font-size: 1.4rem;
         }
-        
-        .feature-card h3::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 2px;
-            background-color: var(--primary);
-            border-radius: 2px;
-        }
-        
-        .commands {
-            background-color: #f9f9f9;
-        }
-        
+
         .command-list {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
-        
+
         .command-category {
-            margin-bottom: 2rem;
-            border-radius: 10px;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 16px var(--shadow);
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
-        
+
         .command-category h3 {
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             color: var(--light);
-            padding: 0.8rem 1rem;
-            margin-bottom: 0;
+            padding: 1rem 1.5rem;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
         }
-        
-        .command-category h3 i {
-            margin-right: 10px;
+
+        .command-category h3:hover {
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
         }
-        
+
+        .command-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .command-category.active .command-items {
+            max-height: 2000px; /* Large enough for content */
+        }
+
         .command-item {
             background-color: var(--light);
             padding: 1.5rem;
-            margin-bottom: 0;
             border-bottom: 1px solid #eee;
             transition: background-color 0.3s;
             text-align: center;
         }
-        
+
         .command-item:last-child {
             border-bottom: none;
         }
-        
+
         .command-item:hover {
-            background-color: #fff9f2;
+            background-color: #ffeef2;
         }
-        
+
         .command-image {
             width: 100%;
-            max-width: 500px;
+            max-width: 400px;
             height: auto;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 1rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            border: 1px solid #eee;
+            box-shadow: 0 4px 12px var(--shadow);
         }
-        
+
         .command-name {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.6rem;
         }
-        
+
         .command-desc {
             color: var(--gray);
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
-        
+
         .invite-container, .support-container {
             text-align: center;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            position: relative;
         }
-        
-        .invite-container p, .support-container p {
-            margin-bottom: 2rem;
-        }
-        
+
         .server-list {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
         }
-        
+
         .server-card {
             background-color: var(--light);
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            width: 250px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(250, 140, 141, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 24px var(--shadow);
+            width: 280px;
+            transition: all 0.3s ease;
+            text-align: center;
         }
-        
+
         .server-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
         }
-        
+
         .server-card h3 {
             color: var(--primary);
-            margin-bottom: 0.5rem;
-            position: relative;
-            display: inline-block;
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
         }
-        
-        .server-card h3::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 2px;
-            background-color: var(--primary);
-            border-radius: 2px;
-        }
-        
+
         .legal-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background-color: var(--light);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(250, 140, 141, 0.1);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px var(--shadow);
         }
-        
-        .legal-content h2 {
-            color: var(--primary);
-            margin: 1.5rem 0 1rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .legal-content h2::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-        }
-        
-        .legal-content h3 {
-            margin: 1.2rem 0 0.5rem;
-            color: var(--primary);
-        }
-        
-        .legal-content p, .legal-content ul {
-            margin-bottom: 1rem;
-        }
-        
-        .legal-content ul {
-            padding-left: 1.5rem;
-        }
-        
-        /* Credits Section */
-        .credits {
-            background-color: #f9f9f9;
-        }
-        
-        .credits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .credit-card {
-            background-color: var(--light);
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .credit-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .credit-card h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        .credit-card p {
-            color: var(--gray);
-            margin-bottom: 1rem;
-        }
-        
-        .credit-links {
-            display: flex;
+
+        .tab-container .tabs {
             justify-content: center;
+            border-bottom: none;
             gap: 1rem;
         }
-        
-        .credit-links a {
-            color: var(--primary);
-            font-size: 1.5rem;
-            transition: color 0.3s;
+
+        .tab {
+            padding: 0.8rem 2rem;
+            background: var(--bg-light);
+            border-radius: 30px;
+            color: var(--text);
+            transition: all 0.3s;
         }
-        
-        .credit-links a:hover {
-            color: var(--secondary);
+
+        .tab.active, .tab:hover {
+            background: var(--primary);
+            color: var(--light);
         }
-        
+
+        .credits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .credit-card {
+            background-color: var(--light);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 24px var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .credit-card:hover {
+            transform: translateY(-6px);
+        }
+
         footer {
             background-color: var(--dark);
             color: var(--light);
-            padding: 2rem 0;
+            padding: 3rem 0;
             text-align: center;
-            position: relative;
         }
-        
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-        
+
         .footer-links {
-            display: flex;
             justify-content: center;
-            list-style: none;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
+            gap: 1.5rem;
         }
-        
-        .footer-links li {
-            margin: 0 1rem;
-            position: relative;
-        }
-        
-        .footer-links a {
-            color: var(--light);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: var(--secondary);
-        }
-        
-        .social-links {
-            margin: 1rem 0;
-        }
-        
+
         .social-links a {
-            color: var(--light);
-            margin: 0 0.5rem;
-            font-size: 1.2rem;
-            transition: color 0.3s, transform 0.3s;
-            display: inline-block;
+            font-size: 1.5rem;
+            margin: 0 1rem;
         }
-        
-        .social-links a:hover {
-            color: var(--secondary);
-            transform: translateY(-3px);
-        }
-        
-        .copyright {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-        
-        /* Made by credit */
-        .made-by {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-        
-        .made-by a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .made-by a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Floating decorations */
+
+        /* Floating decorations enhanced */
         .floating {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.6;
-            z-index: -1;
+            opacity: 0.7;
         }
-        
+
         .floating.cat {
-            width: 100px;
-            height: 100px;
-            background:<img src="cat1.png">;
-            animation: float 6s ease-in-out infinite;
+            background: url('https://placekitten.com/100/100') center/cover no-repeat; /* Replace with actual cat image */
+            animation: float 5s ease-in-out infinite;
         }
-        
+
         .floating.paw {
-            width: 50px;
-            height: 50px;
-            background: url('images/floating.png') center/contain no-repeat;
-            animation: float 4s ease-in-out infinite;
+            background: url('https://placekitten.com/50/50') center/contain no-repeat; /* Replace with paw image */
+            animation: float 3s ease-in-out infinite reverse;
         }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-20px) rotate(5deg);
-            }
-        }
-        
-        /* Responsive styles */
+
         @media (max-width: 768px) {
             .nav-links {
                 position: fixed;
-                top: 70px;
+                top: 60px;
                 left: -100%;
                 width: 100%;
-                height: calc(100vh - 70px);
+                height: calc(100vh - 60px);
                 background-color: var(--dark);
                 flex-direction: column;
-                align-items: center;
-                padding-top: 2rem;
-                transition: left 0.3s;
+                padding-top: 3rem;
+                transition: left 0.4s ease;
             }
-            
+
             .nav-links.active {
                 left: 0;
             }
-            
+
             .nav-links li {
-                margin: 1rem 0;
+                margin: 1.5rem 0;
             }
-            
+
             .hamburger {
                 display: block;
             }
-            
+
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
-            
+
             .hero p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
-            
-            .server-list {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .server-card {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .command-image {
-                max-width: 100%;
-            }
-            
-            /* Adjust GIF badge for mobile */
-            .gif-badge {
-                font-size: 0.9rem;
-                padding: 0.4rem 0.8rem;
-            }
-        }
-        
-        /* Tab system */
-        .tab-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .tabs {
-            display: flex;
-            list-style: none;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #eee;
-            justify-content: center;
-        }
-        
-        .tab {
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--gray);
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-            position: relative;
-        }
-        
-        .tab.active {
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary);
-        }
-        
-        .tab:hover {
-            color: var(--primary);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
     <!-- Floating decorations -->
-    <div class="floating cat" style="top: 20%; left: 5%;"></div>
-    <div class="floating paw" style="top: 70%; left: 10%;"></div>
-    <div class="floating cat" style="top: 30%; right: 5%; transform: scaleX(-1);"></div>
-    <div class="floating paw" style="top: 80%; right: 15%;"></div>
+    <div class="floating cat" style="top: 15%; left: 3%;"></div>
+    <div class="floating paw" style="top: 65%; left: 8%;"></div>
+    <div class="floating cat" style="top: 25%; right: 3%; transform: scaleX(-1);"></div>
+    <div class="floating paw" style="top: 75%; right: 10%;"></div>
 
     <header>
         <div class="container">
             <nav>
                 <div class="logo">
-                    <img src="https://i.imgur.com/meowcall-logo.png">
+                    <img src="https://i.imgur.com/meowcall-logo.png" alt="MeowCall Logo">
                     <span>MeowCall</span>
                 </div>
                 <ul class="nav-links">
@@ -818,6 +531,7 @@
                     <li><a href="#support">Support</a></li>
                     <li><a href="#credits">Credits</a></li>
                     <li><a href="#legal">Legal</a></li>
+                    <li><a href="donations.html">Donations</a></li>
                 </ul>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
@@ -830,12 +544,9 @@
         <div class="container">
             <h1>Connect Servers with MeowCall</h1>
             <p>The ultimate Discord bot for connecting your server with random communities through voice and text channels. Make new friends and grow your community!</p>
-            
-            <!-- GIF Badge -->
             <p class="gif-badge">
                 <i class="fas fa-film"></i> Full GIF support included!
             </p>
-            
             <a href="#invite" class="btn btn-primary">Invite MeowCall</a>
             <a href="#support" class="btn btn-secondary">Join Support Server</a>
         </div>
@@ -846,58 +557,42 @@
             <h2 class="section-title">Amazing Features</h2>
             <div class="features">
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-random"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-random"></i></div>
                     <h3>Random Connections</h3>
                     <p>Connect your server with random communities worldwide with just one command.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-robot"></i></div>
                     <h3>Easy to Use</h3>
                     <p>Simple slash commands make it easy for anyone to start connecting servers.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
                     <h3>Safety First</h3>
                     <p>Built-in moderation tools and reporting system to keep your community safe.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-film"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-film"></i></div>
                     <h3>GIF Support</h3>
                     <p>Send and receive animated GIFs seamlessly between servers!</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-comments"></i></div>
                     <h3>Webhook Messages</h3>
                     <p>Messages appear as if sent by the original user for seamless communication.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-user-friends"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-user-friends"></i></div>
                     <h3>Friend Requests</h3>
                     <p>Easily exchange Discord usernames with new friends you meet.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
                     <h3>Server Stats</h3>
                     <p>Track how many connections your server has made with detailed statistics.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
+                    <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
                     <h3>Fun Games</h3>
                     <p>Play Smash or Pass, Truth or Dare, and other fun games with your connections.</p>
                 </div>
@@ -911,88 +606,96 @@
             <div class="command-list">
                 <div class="command-category">
                     <h3><i class="fas fa-link"></i> Connection Commands</h3>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-call.png" class="command-image">
-                        <div class="command-name">/call</div>
-                        <div class="command-desc">Connect your server to another random server</div>
-                    </div>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-skip.png" class="command-image">
-                        <div class="command-name">/skip</div>
-                        <div class="command-desc">Skip the current connection and find a new server</div>
-                    </div>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-hang.png" class="command-image">
-                        <div class="command-name">/hang</div>
-                        <div class="command-desc">End the current connection</div>
+                    <div class="command-items">
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-call.png" class="command-image">
+                            <div class="command-name">/call</div>
+                            <div class="command-desc">Connect your server to another random server</div>
+                        </div>
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-skip.png" class="command-image">
+                            <div class="command-name">/skip</div>
+                            <div class="command-desc">Skip the current connection and find a new server</div>
+                        </div>
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-hang.png" class="command-image">
+                            <div class="command-name">/hang</div>
+                            <div class="command-desc">End the current connection</div>
+                        </div>
                     </div>
                 </div>
-                
+
                 <div class="command-category">
                     <h3><i class="fas fa-users"></i> Social Commands</h3>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-gif.png" class="command-image" alt="GIF example in chat">
-                        <div class="command-name">gif</div>
-                        <div class="command-desc">Share animated GIFs in connected chats (supports Tenor/Giphy links!)</div>
-                    </div>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-friend.png" class="command-image">
-                        <div class="command-name">/friendrequest</div>
-                        <div class="command-desc">Send your Discord username to the connected server</div>
-                    </div>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-flip.png" alt="/flip command" class="command-image">
-                        <div class="command-name">/flip</div>
-                        <div class="command-desc">Flip a coin with fun animations</div>
-                    </div>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-ship.png" alt="/ship command" class="command-image">
-                        <div class="command-name">/ship</div>
-                        <div class="command-desc">Calculate compatibility between two users</div>
+                    <div class="command-items">
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-gif.png" class="command-image" alt="GIF example in chat">
+                            <div class="command-name">gif</div>
+                            <div class="command-desc">Share animated GIFs in connected chats (supports Tenor/Giphy links!)</div>
+                        </div>
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-friend.png" class="command-image">
+                            <div class="command-name">/friendrequest</div>
+                            <div class="command-desc">Send your Discord username to the connected server</div>
+                        </div>
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-flip.png" alt="/flip command" class="command-image">
+                            <div class="command-name">/flip</div>
+                            <div class="command-desc">Flip a coin with fun animations</div>
+                        </div>
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-ship.png" alt="/ship command" class="command-image">
+                            <div class="command-name">/ship</div>
+                            <div class="command-desc">Calculate compatibility between two users</div>
+                        </div>
                     </div>
                 </div>
-                
+
                 <div class="command-category">
                     <h3><i class="fas fa-gamepad"></i> Game Commands</h3>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-smash.png" class="command-image">
-                        <div class="command-name">/smashorpass</div>
-                        <div class="command-desc">Play Smash or Pass with random anime characters</div>
-                    </div>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-8ball.png" class="command-image">
-                        <div class="command-name">/8ball</div>
-                        <div class="command-desc">Ask the magic 8-ball a yes/no question</div>
-                    </div>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-random.png" class="command-image">
-                        <div class="command-name">/random</div>
-                        <div class="command-desc">Randomly ship two server members</div>
-                    </div>
-                    <div class="command-item">
-                        <img src="https://i.imgur.com/command-truth.png" class="command-image">
-                        <div class="command-name">/truthdare</div>
-                        <div class="command-desc">Play Truth or Dare with your friends</div>
+                    <div class="command-items">
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-smash.png" class="command-image">
+                            <div class="command-name">/smashorpass</div>
+                            <div class="command-desc">Play Smash or Pass with random anime characters</div>
+                        </div>
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-8ball.png" class="command-image">
+                            <div class="command-name">/8ball</div>
+                            <div class="command-desc">Ask the magic 8-ball a yes/no question</div>
+                        </div>
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-random.png" class="command-image">
+                            <div class="command-name">/random</div>
+                            <div class="command-desc">Randomly ship two server members</div>
+                        </div>
+                        <div class="command-item">
+                            <img src="https://i.imgur.com/command-truth.png" class="command-image">
+                            <div class="command-name">/truthdare</div>
+                            <div class="command-desc">Play Truth or Dare with your friends</div>
+                        </div>
                     </div>
                 </div>
-                
+
                 <div class="command-category">
                     <h3><i class="fas fa-info-circle"></i> Info Commands</h3>
-                    <div class="command-item">
-                        <div class="command-name">/mystats</div>
-                        <div class="command-desc">Check your call statistics</div>
-                    </div>
-                    <div class="command-item">
-                        <div class="command-name">/help</div>
-                        <div class="command-desc">Show all available commands</div>
-                    </div>
-                    <div class="command-item">
-                        <div class="command-name">/ping</div>
-                        <div class="command-desc">Check bot latency</div>
-                    </div>
-                    <div class="command-item">
-                        <div class="command-name">/leaderboard</div>
-                        <div class="command-desc">View top users/servers with most connections</div>
+                    <div class="command-items">
+                        <div class="command-item">
+                            <div class="command-name">/mystats</div>
+                            <div class="command-desc">Check your call statistics</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command-name">/help</div>
+                            <div class="command-desc">Show all available commands</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command-name">/ping</div>
+                            <div class="command-desc">Check bot latency</div>
+                        </div>
+                        <div class="command-item">
+                            <div class="command-name">/leaderboard</div>
+                            <div class="command-desc">View top users/servers with most connections</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1016,18 +719,18 @@
             <div class="support-container">
                 <p>Join our support server for help, suggestions, or just to chat with our community!</p>
                 <a href="https://discord.gg/YFPEbK2nBq" class="btn" target="_blank">Join Support Server</a>
-                
-                <h3 style="margin-top: 3rem;">Official MeowCall Servers</h3>
+
+                <h3 style="margin-top: 3rem; text-align: center; color: var(--primary);">Official MeowCall Servers</h3>
                 <div class="server-list">
                     <div class="server-card">
                         <h3>MeowCall Lounge</h3>
                         <p>Community hangout and fun server</p>
-                        <a href="https://discord.gg/YFPEbK2nBq" class="btn" target="_blank" style="margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Join</a>
+                        <a href="https://discord.gg/YFPEbK2nBq" class="btn" target="_blank" style="margin-top: 1rem;">Join</a>
                     </div>
                     <div class="server-card">
                         <h3>MeowCall Testing</h3>
                         <p>Beta features and testing ground</p>
-                        <a href="https://discord.gg/YFPEbK2nBq" class="btn" target="_blank" style="margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Join</a>
+                        <a href="https://discord.gg/YFPEbK2nBq" class="btn" target="_blank" style="margin-top: 1rem;">Join</a>
                     </div>
                 </div>
             </div>
@@ -1065,12 +768,12 @@
                     <li class="tab active" data-tab="privacy">Privacy Policy</li>
                     <li class="tab" data-tab="terms">Terms of Service</li>
                 </ul>
-                
+
                 <div id="privacy" class="tab-content active">
                     <div class="legal-content">
                         <h2>Privacy Policy</h2>
                         <p>Last Updated: April 7, 2025</p>
-                        
+
                         <h3>1. Information We Collect</h3>
                         <p>MeowCall collects the following information when you use our bot:</p>
                         <ul>
@@ -1080,7 +783,7 @@
                             <li>Message content when using the connection features</li>
                             <li>Command usage statistics</li>
                         </ul>
-                        
+
                         <h3>2. How We Use Your Information</h3>
                         <p>We use the collected information to:</p>
                         <ul>
@@ -1089,7 +792,7 @@
                             <li>Monitor for abuse and enforce our Terms of Service</li>
                             <li>Generate anonymous usage statistics</li>
                         </ul>
-                        
+
                         <h3>3. Data Storage</h3>
                         <p>All data is stored securely on our servers. We retain:</p>
                         <ul>
@@ -1098,7 +801,7 @@
                             <li>Command usage data for 30 days</li>
                             <li>We publicly show the servers Meowcall is in for leaderboards command</li>
                         </ul>
-                        
+
                         <h3>4. Your Rights</h3>
                         <p>You have the right to:</p>
                         <ul>
@@ -1106,12 +809,12 @@
                             <li>Request correction or deletion of your data</li>
                             <li>Opt-out of data collection (by not using the bot)</li>
                         </ul>
-                        
+
                         <h3>5. Contact Us</h3>
                         <p>For privacy-related concerns, please join our support server and contact the bot developers.</p>
                     </div>
                 </div>
-                
+
                 <div id="terms" class="tab-content">
                     <div class="legal-content">
                         <h2>Terms of Service</h2>
@@ -1120,7 +823,7 @@
                              You should be above the legal age of using Discord.</p>
                         <h3>1. Acceptance of Terms</h3>
                         <p>By using MeowCall, you agree to these Terms of Service. If you don't agree, please don't use our bot.</p>
-                        
+
                         <h3>2. Proper Usage</h3>
                         <p>You agree to use MeowCall only for its intended purposes and not to:</p>
                         <ul>
@@ -1130,7 +833,7 @@
                             <li>Use the bot for illegal activities</li>
                             <li>Automate commands without permission</li>
                         </ul>
-                        
+
                         <h3>3. Moderation</h3>
                         <p>We reserve the right to:</p>
                         <ul>
@@ -1138,7 +841,7 @@
                             <li>Monitor connections for quality control</li>
                             <li>Modify or terminate the service at any time</li>
                         </ul>
-                        
+
                         <h3>4. Liability</h3>
                         <p>MeowCall is not responsible for:</p>
                         <ul>
@@ -1146,7 +849,7 @@
                             <li>Disputes between connected servers</li>
                             <li>Any damages resulting from bot usage</li>
                         </ul>
-                        
+
                         <h3>5. Changes to Terms</h3>
                         <p>We may update these terms at any time. Continued use constitutes acceptance of the new terms.</p>
                     </div>
@@ -1163,16 +866,18 @@
                 <li><a href="#commands">Commands</a></li>
                 <li><a href="#invite">Invite</a></li>
                 <li><a href="#support">Support</a></li>
+                <li><a href="#credits">Credits</a></li>
                 <li><a href="#legal">Legal</a></li>
+                <li><a href="donations.html">Donations</a></li>
             </ul>
-            
+
             <div class="social-links">
                 <a href="#" target="_blank"><i class="fab fa-discord"></i></a>
                 <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
                 <a href="https://github.com/Flame7-7" target="_blank"><i class="fab fa-github"></i></a>
                 <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
             </div>
-            
+
             <p class="copyright">© 2025 MeowCall. Not affiliated with Discord Inc.</p>
             <p class="made-by">Made with ❤️ by <a href="https://github.com/Flame7-7" target="_blank">@flame7_7</a></p>
         </div>
@@ -1182,77 +887,74 @@
         // Mobile menu toggle
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
-        
+
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
-        
+
         // Close mobile menu when clicking a link
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
             });
         });
-        
-        // Smooth scrolling for anchor links
+
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                
                 const targetId = this.getAttribute('href');
                 if (targetId === '#') return;
-                
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     window.scrollTo({
-                        top: targetElement.offsetTop - 70,
+                        top: targetElement.offsetTop - 80,
                         behavior: 'smooth'
                     });
                 }
             });
         });
-        
+
         // Tab system
         const tabs = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
-        
+
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 const tabId = tab.getAttribute('data-tab');
-                
-                // Remove active class from all tabs and contents
                 tabs.forEach(t => t.classList.remove('active'));
                 tabContents.forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
                 tab.classList.add('active');
                 document.getElementById(tabId).classList.add('active');
             });
         });
-        
+
+        // Accordion for commands
+        const categories = document.querySelectorAll('.command-category h3');
+        categories.forEach(category => {
+            category.addEventListener('click', () => {
+                const parent = category.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+
         // Sticky header
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
             header.classList.toggle('sticky', window.scrollY > 0);
         });
-        
-        // Sparkle effect
+
+        // Enhanced sparkle effect
         document.addEventListener('mousemove', (e) => {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = `${e.pageX}px`;
-            sparkle.style.top = `${e.pageY}px`;
-            document.body.appendChild(sparkle);
-            
-            // Remove sparkle after animation
-            setTimeout(() => {
-                sparkle.remove();
-            }, 1000);
+            if (Math.random() > 0.7) { // Randomize sparkles
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = `${e.pageX}px`;
+                sparkle.style.top = `${e.pageY}px`;
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 800);
+            }
         });
     </script>
 </body>
 </html>
-
-
-
-
