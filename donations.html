@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeowCall Donations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reuse styles from main page */
+        :root {
+            --primary: #ff69b4;
+            --secondary: #ffb6c1;
+            --dark: #36393f;
+            --light: #ffffff;
+            --accent: #ff1493;
+            --text: #2c2f33;
+            --gray: #99aab5;
+            --bg-light: #f0f0f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo img {
+            height: 45px;
+            margin-right: 12px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .hamburger {
+            display: none;
+        }
+
+        .donation-hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--light);
+        }
+
+        .donation-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .donation-hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            background-color: var(--light);
+            color: var(--primary);
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+
+        .donators-section {
+            padding: 4rem 0;
+            background-color: var(--light);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .donators-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .donator-card {
+            background-color: var(--light);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 24px var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .donator-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .donator-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .donator-card p {
+            color: var(--gray);
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Add mobile menu styles if needed */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="https://i.imgur.com/meowcall-logo.png" alt="MeowCall Logo">
+                    <span>MeowCall</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <!-- Add other links if needed -->
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="donation-hero">
+        <div class="container">
+            <h1>Support MeowCall</h1>
+            <p>Your donations help us maintain and improve the bot. Thank you for your support!</p>
+            <a href="https://your-donation-link.com" class="btn" target="_blank">Donate Now</a> <!-- Replace with actual donation link -->
+        </div>
+    </section>
+
+    <section class="donators-section">
+        <div class="container">
+            <h2 class="section-title">Our Generous Donators</h2>
+            <div class="donators-list">
+                <!-- Add donators here manually -->
+                <div class="donator-card">
+                    <h3>Donator Name 1</h3>
+                    <p>Discord: @username1</p>
+                </div>
+                <div class="donator-card">
+                    <h3>Donator Name 2</h3>
+                    <p>Discord: @username2</p>
+                </div>
+                <!-- Add more as needed -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="copyright">© 2025 MeowCall. Not affiliated with Discord Inc.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add any necessary scripts, like mobile menu
+    </script>
+</body>
+</html>
