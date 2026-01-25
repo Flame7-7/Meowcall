@@ -5,533 +5,648 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeowCall - Discord Voice Chat Bot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #ff69b4;
-            --secondary: #ffb6c1;
-            --dark: #36393f;
-            --light: #ffffff;
-            --accent: #ff1493;
-            --text: #2c2f33;
-            --gray: #99aab5;
-            --bg-light: #f0f0f0;
-            --shadow: rgba(0, 0, 0, 0.1);
+            --primary: #fa8c8d;
+            --secondary: #ffb6b6;
+            --dark: #2C3A47;
+            --light: #FFFFFF;
+            --accent: #ff6b6b;
+            --text: #2C2F33;
+            --gray: #99AAB5;
+            --background: #f9f7fe;
         }
-
+       
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
-
+       
         body {
-            background-color: var(--light);
+            background-color: var(--background);
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-
-        /* Enhanced Sparkle Animation */
-        .sparkle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background-color: #fff;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            animation: sparkleAnimation 0.8s ease-out forwards;
-            box-shadow: 0 0 5px #fff;
+       
+        /* Page transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
         }
-
-        @keyframes sparkleAnimation {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(2); opacity: 0; }
+       
+        .page.active {
+            display: block;
         }
-
+       
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+       
+        /* Header */
         header {
             background-color: var(--primary);
             color: var(--light);
-            padding: 1rem 0;
+            padding: 0.8rem 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 12px var(--shadow);
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 15px rgba(250, 140, 141, 0.3);
+            backdrop-filter: blur(10px);
+            background-color: rgba(250, 140, 141, 0.95);
         }
-
-        header.sticky {
-            background-color: rgba(255, 105, 180, 0.95);
-            backdrop-filter: blur(12px);
-            padding: 0.5rem 0;
-        }
-
+       
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 15px;
         }
-
+       
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
+       
         .logo {
             display: flex;
             align-items: center;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            position: relative;
+            cursor: pointer;
         }
-
+       
         .logo img {
-            height: 45px;
-            margin-right: 12px;
-            transition: transform 0.4s ease;
+            height: 40px;
+            margin-right: 10px;
+            transition: transform 0.3s;
         }
-
+       
         .logo:hover img {
-            transform: rotate(360deg);
+            transform: rotate(15deg);
         }
-
+       
         .nav-links {
             display: flex;
             list-style: none;
         }
-
+       
         .nav-links li {
-            margin-left: 2.5rem;
+            margin-left: 1.8rem;
+            position: relative;
         }
-
+       
         .nav-links a {
             color: var(--light);
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s, transform 0.3s;
-            position: relative;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-
-        .nav-links a:hover {
-            color: var(--accent);
-            transform: translateY(-2px);
-        }
-
+       
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
-            background-color: var(--accent);
+            background-color: var(--light);
             transition: width 0.3s;
         }
-
-        .nav-links a:hover::after {
+       
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
             width: 100%;
         }
-
+       
+        .nav-links a.active {
+            color: #fff;
+            font-weight: 600;
+        }
+       
         .hamburger {
             display: none;
             cursor: pointer;
+            z-index: 1001;
             font-size: 1.5rem;
         }
-
+       
+        /* Hero Section */
         .hero {
-            padding: 6rem 0 3rem;
+            padding: 8rem 0 4rem;
             text-align: center;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: var(--light);
             position: relative;
             overflow: hidden;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 2rem;
         }
-
-        .hero::before {
+       
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+       
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--light);
+            border-radius: 2px;
+        }
+       
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+       
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+       
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 15px;
+            padding: 1.8rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(250, 140, 141, 0.1);
+        }
+       
+        .feature-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: url('https://i.postimg.cc/9fc19qy0/60f8abe8-cc74-4aab-bf36-e2d970e12eff.png') center/cover no-repeat;
-            opacity: 0.15;
-            pointer-events: none;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+       
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
         }
-
-        .hero p {
-            font-size: 1.3rem;
-            max-width: 750px;
-            margin: 0 auto 2.5rem;
+       
+        .feature-icon {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
         }
-
-        .gif-badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.25);
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;
+       
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2);
+        }
+       
+        /* Compact Commands */
+        .commands-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+       
+        .command-card {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s;
+        }
+       
+        .command-card:hover {
+            transform: translateY(-5px);
+        }
+       
+        .command-name {
             font-weight: 600;
-            margin: 1.5rem 0;
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            animation: pulse 1.5s infinite;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
         }
-
+       
+        .command-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+       
+        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
-            background-color: var(--light);
-            color: var(--primary);
-            padding: 0.9rem 2rem;
-            border-radius: 50px;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
             text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            margin: 0.6rem;
-            box-shadow: 0 4px 12px var(--shadow);
-            position: relative;
-            overflow: hidden;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 0.3rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(250, 140, 141, 0.3);
         }
-
+       
         .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(250, 140, 141, 0.4);
+            background-color: #f97a7b;
         }
-
+       
         .btn-secondary {
             background-color: transparent;
-            border: 2px solid var(--light);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: none;
+        }
+       
+        .btn-secondary:hover {
+            background-color: var(--primary);
             color: var(--light);
         }
-
-        .btn-secondary:hover {
-            background-color: var(--light);
-            color: var(--primary);
+       
+        /* Sections */
+        .section {
+            padding: 2.5rem 0;
         }
-
-        section {
-            padding: 4rem 0;
-            background-color: var(--light);
-        }
-
-        .commands, .credits {
-            background-color: var(--bg-light);
-        }
-
+       
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
-            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
             color: var(--primary);
             position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
         }
-
+       
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -12px;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: var(--accent);
-            border-radius: 2px;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
         }
-
-        .features {
+       
+        /* Donation Page */
+        .donation-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
-
-        .feature-card {
+       
+        .donation-card {
             background-color: var(--light);
-            border-radius: 20px;
+            border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 8px 24px var(--shadow);
-            transition: all 0.3s ease;
             text-align: center;
-            border: 1px solid rgba(255, 105, 180, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            border: 2px solid transparent;
         }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+       
+        .donation-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
         }
-
-        .feature-icon {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon {
-            transform: rotate(360deg);
-        }
-
-        .feature-card h3 {
-            margin-bottom: 1rem;
-            color: var(--primary);
-            font-size: 1.4rem;
-        }
-
-        .command-list {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .command-category {
-            margin-bottom: 2.5rem;
-            box-shadow: 0 4px 16px var(--shadow);
-            border-radius: 12px;
+       
+        .donation-card.featured {
+            border-color: var(--primary);
+            position: relative;
             overflow: hidden;
         }
-
-        .command-category h3 {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: var(--light);
-            padding: 1rem 1.5rem;
-            font-size: 1.3rem;
+       
+        .donation-card.featured::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+       
+        .donation-amount {
+            font-size: 2.2rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+       
+        .donators-list {
+            background-color: var(--light);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+       
+        .donator {
             display: flex;
             align-items: center;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .command-category h3:hover {
-            background: linear-gradient(90deg, var(--accent), var(--secondary));
-        }
-
-        .command-items {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-        }
-
-        .command-category.active .command-items {
-            max-height: 2000px; /* Large enough for content */
-        }
-
-        .command-item {
-            background-color: var(--light);
-            padding: 1.5rem;
+            padding: 0.8rem;
             border-bottom: 1px solid #eee;
-            transition: background-color 0.3s;
-            text-align: center;
         }
-
-        .command-item:last-child {
+       
+        .donator:last-child {
             border-bottom: none;
         }
-
-        .command-item:hover {
-            background-color: #ffeef2;
-        }
-
-        .command-image {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .command-name {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 1.3rem;
-            margin-bottom: 0.6rem;
-        }
-
-        .command-desc {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        .invite-container, .support-container {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .server-list {
+       
+        .donator-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
             justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2.5rem;
+            font-weight: 600;
+            margin-right: 1rem;
         }
-
-        .server-card {
-            background-color: var(--light);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 24px var(--shadow);
-            width: 280px;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .server-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-        }
-
-        .server-card h3 {
-            color: var(--primary);
-            margin-bottom: 0.8rem;
-            font-size: 1.4rem;
-        }
-
-        .legal-content {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: var(--light);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 24px var(--shadow);
-        }
-
-        .tab-container .tabs {
-            justify-content: center;
-            border-bottom: none;
-            gap: 1rem;
-        }
-
-        .tab {
-            padding: 0.8rem 2rem;
-            background: var(--bg-light);
-            border-radius: 30px;
-            color: var(--text);
-            transition: all 0.3s;
-        }
-
-        .tab.active, .tab:hover {
-            background: var(--primary);
-            color: var(--light);
-        }
-
-        .credits-grid {
+       
+        /* About Page */
+        .about-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
         }
-
-        .credit-card {
+       
+        @media (max-width: 768px) {
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+        }
+       
+        .about-card {
             background-color: var(--light);
-            border-radius: 20px;
+            border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 8px 24px var(--shadow);
-            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         }
-
-        .credit-card:hover {
-            transform: translateY(-6px);
+       
+        .dev-info {
+            display: flex;
+            align-items: center;
+            margin-top: 1.5rem;
         }
-
+       
+        .dev-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-right: 1.5rem;
+        }
+       
+        /* Footer */
         footer {
             background-color: var(--dark);
             color: var(--light);
-            padding: 3rem 0;
+            padding: 2rem 0;
             text-align: center;
+            margin-top: auto;
         }
-
+       
         .footer-links {
+            display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            list-style: none;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
-
-        .social-links a {
-            font-size: 1.5rem;
+       
+        .footer-links li {
             margin: 0 1rem;
         }
-
-        /* Floating decorations enhanced */
-        .floating {
-            opacity: 0.7;
+       
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
         }
-
-        .floating.cat {
-            background: url('https://placekitten.com/100/100') center/cover no-repeat; /* Replace with actual cat image */
-            animation: float 5s ease-in-out infinite;
+       
+        .footer-links a:hover {
+            color: var(--secondary);
         }
-
-        .floating.paw {
-            background: url('https://placekitten.com/50/50') center/contain no-repeat; /* Replace with paw image */
-            animation: float 3s ease-in-out infinite reverse;
+       
+        .social-links {
+            margin: 1.5rem 0;
         }
-
+       
+        .social-links a {
+            color: var(--light);
+            margin: 0 0.7rem;
+            font-size: 1.3rem;
+            transition: color 0.3s, transform 0.3s;
+            display: inline-block;
+        }
+       
+        .social-links a:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+       
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 1rem;
+        }
+       
+        /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 position: fixed;
-                top: 60px;
+                top: 0;
                 left: -100%;
-                width: 100%;
-                height: calc(100vh - 60px);
+                width: 80%;
+                height: 100vh;
                 background-color: var(--dark);
                 flex-direction: column;
-                padding-top: 3rem;
-                transition: left 0.4s ease;
+                align-items: center;
+                padding-top: 5rem;
+                transition: left 0.3s;
+                z-index: 999;
             }
-
+           
             .nav-links.active {
                 left: 0;
             }
-
+           
             .nav-links li {
-                margin: 1.5rem 0;
+                margin: 1rem 0;
             }
-
+           
             .hamburger {
                 display: block;
             }
-
+           
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
-
+           
             .hero p {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
+        }
+       
+        /* Page indicator */
+        .page-title {
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--primary);
+            font-size: 2.2rem;
+        }
+       
+        /* Legal page */
+        .legal-content {
+            background-color: var(--light);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+       
+        .legal-section {
+            margin-bottom: 2rem;
+        }
+       
+        .legal-section h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+       
+        /* Stats counter */
+        .stats-counter {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+       
+        .stat-box {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+       
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+       
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+       
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+        }
+       
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+       
+        .back-to-top:hover {
+            background-color: #f97a7b;
+            transform: translateY(-5px);
         }
     </style>
 </head>
 <body>
-    <!-- Floating decorations -->
-    <div class="floating cat" style="top: 15%; left: 3%;"></div>
-    <div class="floating paw" style="top: 65%; left: 8%;"></div>
-    <div class="floating cat" style="top: 25%; right: 3%; transform: scaleX(-1);"></div>
-    <div class="floating paw" style="top: 75%; right: 10%;"></div>
-
+    <!-- Header -->
     <header>
         <div class="container">
             <nav>
-                <div class="logo">
+                <div class="logo" onclick="showPage('home')">
                     <img src="https://i.imgur.com/meowcall-logo.png" alt="MeowCall Logo">
                     <span>MeowCall</span>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#commands">Commands</a></li>
-                    <li><a href="#invite">Invite</a></li>
-                    <li><a href="#support">Support</a></li>
-                    <li><a href="#credits">Credits</a></li>
-                    <li><a href="#legal">Legal</a></li>
-                    <li><a href="donations.html">Donations</a></li>
+                    <li><a href="#" onclick="showPage('home')" class="active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" onclick="showPage('commands')"><i class="fas fa-terminal"></i> Commands</a></li>
+                    <li><a href="#" onclick="showPage('donate')"><i class="fas fa-heart"></i> Donate</a></li>
+                    <li><a href="#" onclick="showPage('about')"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="#" onclick="showPage('legal')"><i class="fas fa-gavel"></i> Legal</a></li>
                 </ul>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
@@ -540,421 +655,491 @@
         </div>
     </header>
 
-    <section id="home" class="hero">
-        <div class="container">
-            <h1>Connect Servers with MeowCall</h1>
-            <p>The ultimate Discord bot for connecting your server with random communities through voice and text channels. Make new friends and grow your community!</p>
-            <p class="gif-badge">
-                <i class="fas fa-film"></i> Full GIF support included!
-            </p>
-            <a href="#invite" class="btn btn-primary">Invite MeowCall</a>
-            <a href="#support" class="btn btn-secondary">Join Support Server</a>
-        </div>
-    </section>
+    <!-- Back to Top Button -->
+    <div class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
 
-    <section id="features">
-        <div class="container">
-            <h2 class="section-title">Amazing Features</h2>
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-random"></i></div>
-                    <h3>Random Connections</h3>
-                    <p>Connect your server with random communities worldwide with just one command.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-robot"></i></div>
-                    <h3>Easy to Use</h3>
-                    <p>Simple slash commands make it easy for anyone to start connecting servers.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-                    <h3>Safety First</h3>
-                    <p>Built-in moderation tools and reporting system to keep your community safe.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-film"></i></div>
-                    <h3>GIF Support</h3>
-                    <p>Send and receive animated GIFs seamlessly between servers!</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-comments"></i></div>
-                    <h3>Webhook Messages</h3>
-                    <p>Messages appear as if sent by the original user for seamless communication.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-user-friends"></i></div>
-                    <h3>Friend Requests</h3>
-                    <p>Easily exchange Discord usernames with new friends you meet.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Server Stats</h3>
-                    <p>Track how many connections your server has made with detailed statistics.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
-                    <h3>Fun Games</h3>
-                    <p>Play Smash or Pass, Truth or Dare, and other fun games with your connections.</p>
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="container">
+                <h1>Connect Servers with MeowCall</h1>
+                <p>The ultimate Discord bot for connecting your server with random communities through voice and text channels. Make new friends and grow your community!</p>
+                <div style="margin-top: 2rem;">
+                    <a href="#invite" class="btn" onclick="showPage('commands')"><i class="fas fa-terminal"></i> View Commands</a>
+                    <a href="https://discord.com/oauth2/authorize?client_id=1355389597818945639" class="btn btn-secondary" target="_blank"><i class="fas fa-robot"></i> Invite Bot</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="commands" class="commands">
         <div class="container">
-            <h2 class="section-title">Commands</h2>
-            <div class="command-list">
-                <div class="command-category">
-                    <h3><i class="fas fa-link"></i> Connection Commands</h3>
-                    <div class="command-items">
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-call.png" class="command-image">
-                            <div class="command-name">/call</div>
-                            <div class="command-desc">Connect your server to another random server</div>
-                        </div>
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-skip.png" class="command-image">
-                            <div class="command-name">/skip</div>
-                            <div class="command-desc">Skip the current connection and find a new server</div>
-                        </div>
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-hang.png" class="command-image">
-                            <div class="command-name">/hang</div>
-                            <div class="command-desc">End the current connection</div>
-                        </div>
-                    </div>
+            <!-- Stats Counter -->
+            <div class="stats-counter">
+                <div class="stat-box">
+                    <div class="stat-number" id="serverCount">2500+</div>
+                    <div class="stat-label">Servers</div>
                 </div>
-
-                <div class="command-category">
-                    <h3><i class="fas fa-users"></i> Social Commands</h3>
-                    <div class="command-items">
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-gif.png" class="command-image" alt="GIF example in chat">
-                            <div class="command-name">gif</div>
-                            <div class="command-desc">Share animated GIFs in connected chats (supports Tenor/Giphy links!)</div>
-                        </div>
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-friend.png" class="command-image">
-                            <div class="command-name">/friendrequest</div>
-                            <div class="command-desc">Send your Discord username to the connected server</div>
-                        </div>
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-flip.png" alt="/flip command" class="command-image">
-                            <div class="command-name">/flip</div>
-                            <div class="command-desc">Flip a coin with fun animations</div>
-                        </div>
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-ship.png" alt="/ship command" class="command-image">
-                            <div class="command-name">/ship</div>
-                            <div class="command-desc">Calculate compatibility between two users</div>
-                        </div>
-                    </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="userCount">50000+</div>
+                    <div class="stat-label">Users</div>
                 </div>
-
-                <div class="command-category">
-                    <h3><i class="fas fa-gamepad"></i> Game Commands</h3>
-                    <div class="command-items">
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-smash.png" class="command-image">
-                            <div class="command-name">/smashorpass</div>
-                            <div class="command-desc">Play Smash or Pass with random anime characters</div>
-                        </div>
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-8ball.png" class="command-image">
-                            <div class="command-name">/8ball</div>
-                            <div class="command-desc">Ask the magic 8-ball a yes/no question</div>
-                        </div>
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-random.png" class="command-image">
-                            <div class="command-name">/random</div>
-                            <div class="command-desc">Randomly ship two server members</div>
-                        </div>
-                        <div class="command-item">
-                            <img src="https://i.imgur.com/command-truth.png" class="command-image">
-                            <div class="command-name">/truthdare</div>
-                            <div class="command-desc">Play Truth or Dare with your friends</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="command-category">
-                    <h3><i class="fas fa-info-circle"></i> Info Commands</h3>
-                    <div class="command-items">
-                        <div class="command-item">
-                            <div class="command-name">/mystats</div>
-                            <div class="command-desc">Check your call statistics</div>
-                        </div>
-                        <div class="command-item">
-                            <div class="command-name">/help</div>
-                            <div class="command-desc">Show all available commands</div>
-                        </div>
-                        <div class="command-item">
-                            <div class="command-name">/ping</div>
-                            <div class="command-desc">Check bot latency</div>
-                        </div>
-                        <div class="command-item">
-                            <div class="command-name">/leaderboard</div>
-                            <div class="command-desc">View top users/servers with most connections</div>
-                        </div>
-                    </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="connectionCount">100000+</div>
+                    <div class="stat-label">Connections</div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section id="invite">
-        <div class="container">
-            <h2 class="section-title">Invite MeowCall</h2>
-            <div class="invite-container">
-                <p>Add MeowCall to your Discord server and start connecting with random communities today!</p>
-                <a href="https://discord.com/oauth2/authorize?client_id=1355389597818945639" class="btn" target="_blank">Invite to Discord</a>
-                <p>Requires manage channels and webhook permissions to function properly.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="support" class="commands">
-        <div class="container">
-            <h2 class="section-title">Support</h2>
-            <div class="support-container">
-                <p>Join our support server for help, suggestions, or just to chat with our community!</p>
-                <a href="https://discord.gg/YFPEbK2nBq" class="btn" target="_blank">Join Support Server</a>
-
-                <h3 style="margin-top: 3rem; text-align: center; color: var(--primary);">Official MeowCall Servers</h3>
-                <div class="server-list">
-                    <div class="server-card">
-                        <h3>MeowCall Lounge</h3>
-                        <p>Community hangout and fun server</p>
-                        <a href="https://discord.gg/YFPEbK2nBq" class="btn" target="_blank" style="margin-top: 1rem;">Join</a>
+            <section class="section">
+                <h2 class="section-title">Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-random"></i></div>
+                        <h3>Random Connections</h3>
+                        <p>Connect with random servers worldwide with one command.</p>
                     </div>
-                    <div class="server-card">
-                        <h3>MeowCall Testing</h3>
-                        <p>Beta features and testing ground</p>
-                        <a href="https://discord.gg/YFPEbK2nBq" class="btn" target="_blank" style="margin-top: 1rem;">Join</a>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Safety First</h3>
+                        <p>Built-in moderation tools to keep your community safe.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-film"></i></div>
+                        <h3>GIF Support</h3>
+                        <p>Send and receive animated GIFs between servers!</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
+                        <h3>Fun Games</h3>
+                        <p>Play Smash or Pass, Truth or Dare, and more with connections.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <section id="credits" class="credits">
-        <div class="container">
-            <h2 class="section-title">Credits</h2>
-            <div class="credits-grid">
-                <div class="credit-card">
-                    <h3>Development Team</h3>
-                    <p>The talented developers who brought MeowCall to life</p>
-                    <div class="credit-links">
-                        <a href="https://github.com/Flame7-7" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://discordapp.com/users/933021375294214175" target="_blank"><i class="fab fa-discord"></i></a>
+            <section class="section">
+                <h2 class="section-title">Quick Start</h2>
+                <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                    <p>1. Invite MeowCall to your server</p>
+                    <p>2. Use <code>/call</code> to connect with a random server</p>
+                    <p>3. Chat, play games, and make new friends!</p>
+                    <div style="margin-top: 2rem;">
+                        <a href="https://discord.com/oauth2/authorize?client_id=1355389597818945639" class="btn" target="_blank"><i class="fas fa-plus"></i> Add to Discord</a>
+                        <a href="https://discord.gg/YFPEbK2nBq" class="btn btn-secondary" target="_blank"><i class="fas fa-question-circle"></i> Support Server</a>
                     </div>
                 </div>
-                <div class="credit-card">
-                    <h3>Special Thanks</h3>
-                    <p>Community members who helped test and improve MeowCall</p>
-                    <div class="credit-links">
-                        <a href="https://discord.gg/YFPEbK2nBq" target="_blank"><i class="fab fa-discord"></i></a>
+            </section>
+        </div>
+    </div>
+
+    <!-- Commands Page -->
+    <div id="commands" class="page">
+        <div class="container">
+            <h1 class="page-title">Commands</h1>
+            
+            <section class="section">
+                <h2 class="section-title">Connection Commands</h2>
+                <div class="commands-container">
+                    <div class="command-card">
+                        <div class="command-name">/call</div>
+                        <div class="command-desc">Connect your server to another random server</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-name">/skip</div>
+                        <div class="command-desc">Skip the current connection</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-name">/hang</div>
+                        <div class="command-desc">End the current connection</div>
                     </div>
                 </div>
-            </div>
+            </section>
+            
+            <section class="section">
+                <h2 class="section-title">Game Commands</h2>
+                <div class="commands-container">
+                    <div class="command-card">
+                        <div class="command-name">/smashorpass</div>
+                        <div class="command-desc">Play Smash or Pass with anime characters</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-name">/truthdare</div>
+                        <div class="command-desc">Play Truth or Dare with friends</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-name">/8ball</div>
+                        <div class="command-desc">Ask the magic 8-ball a question</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-name">/flip</div>
+                        <div class="command-desc">Flip a coin with animations</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-name">/ship</div>
+                        <div class="command-desc">Calculate compatibility between users</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="section">
+                <h2 class="section-title">Utility Commands</h2>
+                <div class="commands-container">
+                    <div class="command-card">
+                        <div class="command-name">/mystats</div>
+                        <div class="command-desc">Check your call statistics</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-name">/leaderboard</div>
+                        <div class="command-desc">View top users/servers</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-name">/help</div>
+                        <div class="command-desc">Show all commands</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-name">/ping</div>
+                        <div class="command-desc">Check bot latency</div>
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
+    </div>
 
-    <section id="legal">
+    <!-- Donation Page -->
+    <div id="donate" class="page">
         <div class="container">
-            <h2 class="section-title">Legal</h2>
-            <div class="tab-container">
-                <ul class="tabs">
-                    <li class="tab active" data-tab="privacy">Privacy Policy</li>
-                    <li class="tab" data-tab="terms">Terms of Service</li>
-                </ul>
+            <h1 class="page-title">Support MeowCall</h1>
+            
+            <section class="section">
+                <div style="text-align: center; max-width: 700px; margin: 0 auto 2rem;">
+                    <p>Your donations help keep MeowCall running and support future development. All donors will be listed on this page!</p>
+                </div>
+                
+                <h2 class="section-title">Donation Tiers</h2>
+                <div class="donation-options">
+                    <div class="donation-card">
+                        <h3>Supporter</h3>
+                        <div class="donation-amount">$3</div>
+                        <p>Get your name in the donators list</p>
+                        <button class="btn" style="margin-top: 1rem;" onclick="openDonationModal(3)">Donate</button>
+                    </div>
+                    
+                    <div class="donation-card featured">
+                        <h3>Super Supporter</h3>
+                        <div class="donation-amount">$10</div>
+                        <p>Special role in support server + donator list</p>
+                        <button class="btn" style="margin-top: 1rem;" onclick="openDonationModal(10)">Donate</button>
+                    </div>
+                    
+                    <div class="donation-card">
+                        <h3>VIP</h3>
+                        <div class="donation-amount">$25</div>
+                        <p>All previous perks + VIP badge</p>
+                        <button class="btn" style="margin-top: 1rem;" onclick="openDonationModal(25)">Donate</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="section">
+                <h2 class="section-title">Top Donators</h2>
+                <div class="donators-list">
+                    <div id="donators-container">
+                        <!-- Donators will be loaded here via JavaScript -->
+                    </div>
+                </div>
+            </section>
+            
+            <section class="section">
+                <div style="text-align: center;">
+                    <p>Other ways to support:</p>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-secondary" onclick="showPage('commands')"><i class="fas fa-terminal"></i> Use the Bot</button>
+                        <button class="btn btn-secondary" onclick="showPage('about')"><i class="fas fa-star"></i> Leave a Review</button>
+                        <button class="btn btn-secondary" onclick="window.open('https://discord.gg/YFPEbK2nBq', '_blank')"><i class="fas fa-users"></i> Join Community</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 
-                <div id="privacy" class="tab-content active">
-                    <div class="legal-content">
-                        <h2>Privacy Policy</h2>
-                        <p>Last Updated: April 7, 2025</p>
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="container">
+            <h1 class="page-title">About MeowCall</h1>
+            
+            <section class="section">
+                <div class="about-container">
+                    <div class="about-card">
+                        <h2 style="color: var(--primary); margin-bottom: 1rem;">The Bot</h2>
+                        <p>MeowCall is a Discord bot designed to help servers connect with each other through voice and text channels. It was created to help communities grow and make new friends in a safe, moderated environment.</p>
+                        <p>With features like random server connections, fun games, GIF support, and safety tools, MeowCall provides a unique way to expand your Discord experience.</p>
+                        <div style="margin-top: 1.5rem;">
+                            <h3 style="color: var(--primary);">Features:</h3>
+                            <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Random server connections</li>
+                                <li>GIF support (Tenor/Giphy)</li>
+                                <li>Multiple fun games</li>
+                                <li>User statistics and leaderboards</li>
+                                <li>Webhook-based messaging</li>
+                                <li>Safety and moderation tools</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="about-card">
+                        <h2 style="color: var(--primary); margin-bottom: 1rem;">The Developer</h2>
+                        <div class="dev-info">
+                            <div class="dev-avatar">F</div>
+                            <div>
+                                <h3>Flame7_7</h3>
+                                <p>Full-stack developer and Discord bot enthusiast</p>
+                            </div>
+                        </div>
+                        <p style="margin-top: 1.5rem;">Hi! I'm Flame7_7, the creator of MeowCall. I've been developing Discord bots for over 3 years and love creating tools that help communities connect and have fun.</p>
+                        <p>MeowCall is my passion project, constantly updated with new features and improvements based on community feedback.</p>
+                        <div style="margin-top: 1.5rem;">
+                            <h3 style="color: var(--primary);">Connect with me:</h3>
+                            <div class="social-links" style="margin-top: 0.5rem;">
+                                <a href="https://github.com/Flame7-7" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://discordapp.com/users/933021375294214175" target="_blank"><i class="fab fa-discord"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 
-                        <h3>1. Information We Collect</h3>
-                        <p>MeowCall collects the following information when you use our bot:</p>
-                        <ul>
+    <!-- Legal Page -->
+    <div id="legal" class="page">
+        <div class="container">
+            <h1 class="page-title">Legal Information</h1>
+            
+            <section class="section">
+                <div class="legal-content">
+                    <div class="legal-section">
+                        <h3>Privacy Policy</h3>
+                        <p><strong>Last Updated:</strong> April 7, 2025</p>
+                        <p>MeowCall collects the following information:</p>
+                        <ul style="padding-left: 1.5rem; margin: 0.5rem 0;">
                             <li>Discord user IDs of users who interact with the bot</li>
                             <li>Server IDs where the bot is installed</li>
                             <li>Channel IDs where bot commands are used</li>
-                            <li>Message content when using the connection features</li>
                             <li>Command usage statistics</li>
                         </ul>
-
-                        <h3>2. How We Use Your Information</h3>
-                        <p>We use the collected information to:</p>
-                        <ul>
-                            <li>Provide and maintain our service</li>
-                            <li>Improve user experience</li>
-                            <li>Monitor for abuse and enforce our Terms of Service</li>
-                            <li>Generate anonymous usage statistics</li>
+                        <p>We use this information to provide and improve our service, monitor for abuse, and generate anonymous usage statistics.</p>
+                        <p>All data is stored securely. User IDs and server IDs are retained indefinitely for moderation purposes. Message content is only stored temporarily during active connections.</p>
+                    </div>
+                    
+                    <div class="legal-section">
+                        <h3>Terms of Service</h3>
+                        <p>By using MeowCall, you agree to:</p>
+                        <ul style="padding-left: 1.5rem; margin: 0.5rem 0;">
+                            <li>Not harass other users</li>
+                            <li>Not share inappropriate content</li>
+                            <li>Not attempt to disrupt the service</li>
+                            <li>Not use the bot for illegal activities</li>
                         </ul>
-
-                        <h3>3. Data Storage</h3>
-                        <p>All data is stored securely on our servers. We retain:</p>
-                        <ul>
-                            <li>User IDs and server IDs indefinitely for moderation purposes</li>
-                            <li>Message content only temporarily during active connections</li>
-                            <li>Command usage data for 30 days</li>
-                            <li>We publicly show the servers Meowcall is in for leaderboards command</li>
-                        </ul>
-
-                        <h3>4. Your Rights</h3>
-                        <p>You have the right to:</p>
-                        <ul>
-                            <li>Request access to your personal data</li>
-                            <li>Request correction or deletion of your data</li>
-                            <li>Opt-out of data collection (by not using the bot)</li>
-                        </ul>
-
-                        <h3>5. Contact Us</h3>
-                        <p>For privacy-related concerns, please join our support server and contact the bot developers.</p>
+                        <p>We reserve the right to ban users/servers that violate these terms, monitor connections for quality control, and modify or terminate the service at any time.</p>
+                        <p>MeowCall is not responsible for content shared through the bot by users or disputes between connected servers.</p>
+                    </div>
+                    
+                    <div class="legal-section">
+                        <h3>Data Deletion Request</h3>
+                        <p>To request deletion of your data, please join our support server and contact the bot developers. We will process your request within 30 days.</p>
+                        <p>Note that some data may be retained for legal or security reasons even after deletion requests.</p>
                     </div>
                 </div>
-
-                <div id="terms" class="tab-content">
-                    <div class="legal-content">
-                        <h2>Terms of Service</h2>
-                        <p>Last Updated: April 7, 2025</p>
-                        <p>By inviting the Discord MeowCall bot, you agree to follow Discord's Terms of Service and anything else stated here.
-                             You should be above the legal age of using Discord.</p>
-                        <h3>1. Acceptance of Terms</h3>
-                        <p>By using MeowCall, you agree to these Terms of Service. If you don't agree, please don't use our bot.</p>
-
-                        <h3>2. Proper Usage</h3>
-                        <p>You agree to use MeowCall only for its intended purposes and not to:</p>
-                        <ul>
-                            <li>Harass other users</li>
-                            <li>Share inappropriate content</li>
-                            <li>Attempt to disrupt the service</li>
-                            <li>Use the bot for illegal activities</li>
-                            <li>Automate commands without permission</li>
-                        </ul>
-
-                        <h3>3. Moderation</h3>
-                        <p>We reserve the right to:</p>
-                        <ul>
-                            <li>Ban users/servers that violate these terms</li>
-                            <li>Monitor connections for quality control</li>
-                            <li>Modify or terminate the service at any time</li>
-                        </ul>
-
-                        <h3>4. Liability</h3>
-                        <p>MeowCall is not responsible for:</p>
-                        <ul>
-                            <li>Content shared through the bot by users</li>
-                            <li>Disputes between connected servers</li>
-                            <li>Any damages resulting from bot usage</li>
-                        </ul>
-
-                        <h3>5. Changes to Terms</h3>
-                        <p>We may update these terms at any time. Continued use constitutes acceptance of the new terms.</p>
-                    </div>
-                </div>
-            </div>
+            </section>
         </div>
-    </section>
+    </div>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
             <ul class="footer-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#commands">Commands</a></li>
-                <li><a href="#invite">Invite</a></li>
-                <li><a href="#support">Support</a></li>
-                <li><a href="#credits">Credits</a></li>
-                <li><a href="#legal">Legal</a></li>
-                <li><a href="donations.html">Donations</a></li>
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('commands')">Commands</a></li>
+                <li><a href="#" onclick="showPage('donate')">Donate</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('legal')">Legal</a></li>
             </ul>
-
+           
             <div class="social-links">
-                <a href="#" target="_blank"><i class="fab fa-discord"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://discord.gg/YFPEbK2nBq" target="_blank"><i class="fab fa-discord"></i></a>
                 <a href="https://github.com/Flame7-7" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
             </div>
-
+           
             <p class="copyright">© 2025 MeowCall. Not affiliated with Discord Inc.</p>
-            <p class="made-by">Made with ❤️ by <a href="https://github.com/Flame7-7" target="_blank">@flame7_7</a></p>
+            <p class="copyright">Made with <i class="fas fa-heart" style="color: var(--primary);"></i> by <a href="https://github.com/Flame7-7" target="_blank" style="color: var(--secondary); text-decoration: none;">@flame7_7</a></p>
         </div>
     </footer>
 
-    <script>
-        // Mobile menu toggle
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
+    <!-- Donation Modal -->
+    <div id="donationModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
+        <div style="background-color: white; padding: 2rem; border-radius: 15px; max-width: 500px; width: 90%; position: relative;">
+            <button onclick="closeDonationModal()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--primary);">×</button>
+            <h2 style="color: var(--primary); margin-bottom: 1rem;">Donate to MeowCall</h2>
+            <p>Thank you for your support! Currently, donations are processed through our Discord server.</p>
+            <p>Please join our support server and contact a staff member to complete your donation.</p>
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                <button class="btn" onclick="window.open('https://discord.gg/YFPEbK2nBq', '_blank')"><i class="fab fa-discord"></i> Join Support Server</button>
+                <button class="btn btn-secondary" onclick="closeDonationModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
 
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+    <script>
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick') === `showPage('${pageId}')`) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Close mobile menu if open
+            document.querySelector('.nav-links').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            
+            // Update page title
+            document.title = `MeowCall - ${pageId.charAt(0).toUpperCase() + pageId.slice(1)}`;
+        }
+
+        // Mobile menu toggle
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
         });
 
         // Close mobile menu when clicking a link
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
+                document.querySelector('.nav-links').classList.remove('active');
             });
         });
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+        // Back to top button
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        window.addEventListener('scroll', function() {
+            const backToTopBtn = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        // Donation modal
+        function openDonationModal(amount) {
+            document.getElementById('donationModal').style.display = 'flex';
+        }
+
+        function closeDonationModal() {
+            document.getElementById('donationModal').style.display = 'none';
+        }
+
+        // Sample donators data
+        const donators = [
+            { name: "Alex", amount: 50, date: "2025-03-15" },
+            { name: "Jordan", amount: 25, date: "2025-03-10" },
+            { name: "Taylor", amount: 10, date: "2025-03-05" },
+            { name: "Morgan", amount: 10, date: "2025-02-28" },
+            { name: "Casey", amount: 5, date: "2025-02-20" },
+            { name: "Riley", amount: 5, date: "2025-02-15" },
+            { name: "Dylan", amount: 3, date: "2025-02-10" },
+            { name: "Jamie", amount: 3, date: "2025-02-05" }
+        ];
+
+        // Load donators
+        function loadDonators() {
+            const container = document.getElementById('donators-container');
+            container.innerHTML = '';
+            
+            donators.sort((a, b) => b.amount - a.amount).forEach(donator => {
+                const donatorElement = document.createElement('div');
+                donatorElement.className = 'donator';
+                donatorElement.innerHTML = `
+                    <div class="donator-avatar">${donator.name.charAt(0)}</div>
+                    <div style="flex-grow: 1;">
+                        <div style="font-weight: 600;">${donator.name}</div>
+                        <div style="font-size: 0.9rem; color: var(--gray);">Donated $${donator.amount} on ${donator.date}</div>
+                    </div>
+                    <div style="color: var(--primary); font-weight: 700;">$${donator.amount}</div>
+                `;
+                container.appendChild(donatorElement);
+            });
+        }
+
+        // Animated counters
+        function animateCounter(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.textContent = Math.floor(progress * (end - start) + start) + "+";
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDonators();
+            
+            // Animate counters on home page
+            if (document.getElementById('home').classList.contains('active')) {
+                setTimeout(() => {
+                    animateCounter(document.getElementById('serverCount'), 0, 2500, 1500);
+                    animateCounter(document.getElementById('userCount'), 0, 50000, 2000);
+                    animateCounter(document.getElementById('connectionCount'), 0, 100000, 2500);
+                }, 500);
+            }
+            
+            // Close modal when clicking outside
+            document.getElementById('donationModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDonationModal();
+                }
+            });
+            
+            // Set current year in footer
+            document.querySelector('.copyright').innerHTML = document.querySelector('.copyright').innerHTML.replace('2025', new Date().getFullYear());
+        });
+
+        // Listen for page changes to animate counters
+        let countersAnimated = false;
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    if (document.getElementById('home').classList.contains('active') && !countersAnimated) {
+                        setTimeout(() => {
+                            animateCounter(document.getElementById('serverCount'), 0, 2500, 1500);
+                            animateCounter(document.getElementById('userCount'), 0, 50000, 2000);
+                            animateCounter(document.getElementById('connectionCount'), 0, 100000, 2500);
+                            countersAnimated = true;
+                        }, 300);
+                    }
                 }
             });
         });
 
-        // Tab system
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.getAttribute('data-tab');
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-                tab.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-
-        // Accordion for commands
-        const categories = document.querySelectorAll('.command-category h3');
-        categories.forEach(category => {
-            category.addEventListener('click', () => {
-                const parent = category.parentElement;
-                parent.classList.toggle('active');
-            });
-        });
-
-        // Sticky header
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            header.classList.toggle('sticky', window.scrollY > 0);
-        });
-
-        // Enhanced sparkle effect
-        document.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.7) { // Randomize sparkles
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                sparkle.style.left = `${e.pageX}px`;
-                sparkle.style.top = `${e.pageY}px`;
-                document.body.appendChild(sparkle);
-                setTimeout(() => sparkle.remove(), 800);
-            }
-        });
+        observer.observe(document.getElementById('home'), { attributes: true });
     </script>
 </body>
 </html>
